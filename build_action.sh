@@ -30,10 +30,11 @@ source ../patch.d/*.sh
 
 # build deb packages
 CPU_CORES=$(($(grep -c processor < /proc/cpuinfo)*2))
-make  bindeb-pkg -j"$CPU_CORES"
+make  defconfig 
+make -j"$CPU_CORES"
+
 
 # move deb packages to artifact dir
 cd ..
-rm -rfv *dbg*.deb
 mkdir "artifact"
-mv ./*.deb artifact/
+cp linux-"$VERSION"/arch/x86/boot/bzImage ./artifact/
