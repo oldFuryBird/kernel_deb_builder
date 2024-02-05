@@ -30,13 +30,14 @@ source ../patch.d/*.sh
 
 # build deb packages
 CPU_CORES=$(($(grep -c processor < /proc/cpuinfo)*2))
+echo "cpu核心数量"$CPU_CORES
 make  defconfig 
 make -j"$CPU_CORES"
-cd linux-"$VERSION"/arch/x86/boot/
+cd arch/x86/boot/
 mkinitramfs -o initrd.img-"$VERSION"
 
 # move deb packages to artifact dir
-cd ..
+cd ../../../../
 mkdir "artifact"
 cp linux-"$VERSION"/arch/x86/boot/bzImage ./artifact/
 cp linux-"$VERSION"/arch/x86/boot/initrd.img-"$VERSION" ./artifact/
